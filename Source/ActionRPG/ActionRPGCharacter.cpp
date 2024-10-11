@@ -55,6 +55,8 @@ AActionRPGCharacter::AActionRPGCharacter()
 
 	PlayerHealth = 1.00f;
 	bIsOverlappingItem = false;
+	bHasArmor = true;
+	PlayerArmor = 1.00f;
 }
 
 void AActionRPGCharacter::BeginPlay()
@@ -160,15 +162,46 @@ void AActionRPGCharacter::HealPlayer(float HealAmount)
 	}
 }
 
+void AActionRPGCharacter::HealArmor(float HealAmount)
+{
+	UE_LOG(LogTemp, Warning, TEXT("We are healing armor for %f points"), HealAmount);
+	PlayerArmor += HealAmount;
+	bHasArmor = true;
+
+	if (PlayerArmor > 1.00f)
+	{
+		PlayerArmor = 1.00f;
+	}
+}
+
 void AActionRPGCharacter::DamagePlayer(float DamageAmount)
 {
 	UE_LOG(LogTemp, Warning, TEXT("We are taking damage for %f points"), DamageAmount);
-	PlayerHealth -= DamageAmount;
 
-	if (PlayerHealth < 0.00f)
+	if(bHasArmor)
 	{
-		PlayerHealth = 0.00f;
+		PlayerArmor -= DamageAmount;
+
+		if(PlayerArmor < 0.00f)
+		{
+			bHasArmor = false;
+			PlayerHealth += PlayerArmor;
+			PlayerArmor = 0.00f;
+		}
 	}
+	else
+	{
+		PlayerHealth -= DamageAmount;
+		
+		if (PlayerHealth < 0.00f)
+		{
+			PlayerHealth = 0.00f;
+		}
+	}
+	
+	
+	
+	
 }
 
 void AActionRPGCharacter::EquipItem()

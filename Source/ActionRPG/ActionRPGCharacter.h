@@ -71,10 +71,16 @@ protected:
 
 	//Allows the character to equip an item they are close to
 	void EquipItem();
-	
+
+	//Heal the character
 	UFUNCTION(BlueprintCallable, Category="Health")
 	void HealPlayer(float HealAmount);
 
+	//Heal the character's armor
+	UFUNCTION(BlueprintCallable, Category="Health")
+	void HealArmor(float HealAmount);
+
+	//Damage the character
 	UFUNCTION(BlueprintCallable, Category="Health")
 	void DamagePlayer(float DamageAmount);
 
@@ -87,8 +93,14 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
 	float PlayerHealth;
 
+	// The amount of armor the character currently has.
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
+	float PlayerArmor;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Items")
 	bool bIsOverlappingItem;
+
+	bool bHasArmor;
 	
 	// To add mapping context
 	virtual void BeginPlay();
