@@ -113,6 +113,21 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapons")
 	bool bIsZoomedIn;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	int CurrentLevel;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	int UpgradePoints;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	int StrengthValue;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	int DexterityValue;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	int IntellectValue;
+
 	bool bHasArmor;
 	
 	// To add mapping context

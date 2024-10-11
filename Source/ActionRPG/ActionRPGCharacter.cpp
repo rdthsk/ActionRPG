@@ -53,10 +53,18 @@ AActionRPGCharacter::AActionRPGCharacter()
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 
+	// Default float and int values
 	PlayerHealth = 1.00f;
-	bIsOverlappingItem = false;
-	bHasArmor = true;
 	PlayerArmor = 1.00f;
+	CurrentLevel = 1;
+	UpgradePoints = 5;
+	StrengthValue = 1;
+	DexterityValue = 1;
+	IntellectValue = 1;
+	
+	// Default bool values
+	bHasArmor = true;
+	bIsOverlappingItem = false;
 	bIsZoomedIn = false;
 }
 
