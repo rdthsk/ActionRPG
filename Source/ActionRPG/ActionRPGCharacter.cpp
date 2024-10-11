@@ -57,6 +57,7 @@ AActionRPGCharacter::AActionRPGCharacter()
 	bIsOverlappingItem = false;
 	bHasArmor = true;
 	PlayerArmor = 1.00f;
+	bIsZoomedIn = false;
 }
 
 void AActionRPGCharacter::BeginPlay()
@@ -96,8 +97,12 @@ void AActionRPGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Started, this, &AActionRPGCharacter::Sprint);
 		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Completed, this, &AActionRPGCharacter::StopSprinting);
 
-		//Equip
+		// Equip
 		EnhancedInputComponent->BindAction(EquipAction, ETriggerEvent::Triggered, this, &AActionRPGCharacter::EquipItem);
+
+		// Zoom
+		EnhancedInputComponent->BindAction(ZoomAction, ETriggerEvent::Started, this, &AActionRPGCharacter::ZoomIn);
+		EnhancedInputComponent->BindAction(ZoomAction, ETriggerEvent::Completed, this, &AActionRPGCharacter::ZoomOut);
 	}
 	else
 	{	
@@ -198,10 +203,40 @@ void AActionRPGCharacter::DamagePlayer(float DamageAmount)
 			PlayerHealth = 0.00f;
 		}
 	}
-	
-	
-	
-	
+}
+
+void AActionRPGCharacter::ZoomIn()
+{
+	if(auto ThirdPersonCamera = GetCameraBoom())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("We are now zooming in."));
+		ThirdPersonCamera->TargetArmLength = 150.0f;
+		ThirdPersonCamera->TargetOffset = FVector(0.0f, 80.0f, 70.0f);
+
+		if(auto characterMovement = GetCharacterMovement())
+		{
+			characterMovement->MaxWalkSpeed = 300.0f;
+		}
+
+		bIsZoomedIn = true;
+	}
+}
+
+void AActionRPGCharacter::ZoomOut()
+{
+	if(auto _ThirdPersonCamera = GetCameraBoom())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("We have stopped zooming."));
+		_ThirdPersonCamera->TargetArmLength = 300.f;
+		_ThirdPersonCamera->TargetOffset = FVector(0.0f, 0.0f, 0.0f);
+
+		if(auto _CharacterMovement = GetCharacterMovement())
+		{
+			_CharacterMovement->MaxWalkSpeed = 600.0f;
+		}
+
+		bIsZoomedIn = false;
+	}
 }
 
 void AActionRPGCharacter::EquipItem()

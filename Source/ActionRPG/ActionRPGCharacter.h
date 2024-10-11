@@ -48,9 +48,13 @@ class AActionRPGCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* SprintAction;
 
-	/** Sprint Input Action */
+	/** Equip Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* EquipAction;
+
+	/** Zoom Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* ZoomAction;
 
 public:
 	AActionRPGCharacter();
@@ -84,6 +88,12 @@ protected:
 	UFUNCTION(BlueprintCallable, Category="Health")
 	void DamagePlayer(float DamageAmount);
 
+	//Zooms the camera in (aim down sights)
+	void ZoomIn();
+
+	//Zooms the camera out (blind-fire)
+	void ZoomOut();
+
 
 protected:
 	// APawn interface
@@ -99,6 +109,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Items")
 	bool bIsOverlappingItem;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapons")
+	bool bIsZoomedIn;
 
 	bool bHasArmor;
 	
