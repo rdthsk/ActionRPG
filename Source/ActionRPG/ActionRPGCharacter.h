@@ -48,11 +48,11 @@ class AActionRPGCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* SprintAction;
 	
-	/** Heal Input Action */
+	/** HealPlayer Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* HealAction;
     	
-	/** Damage Input Action */
+	/** DamagePlayer Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* DamageAction;
 
@@ -73,15 +73,20 @@ protected:
 	//Allows the character to stop sprinting
 	void StopSprinting();
 
-	//Test healing
-	void Heal();
-
-	//Test damage
-	void Damage();
+#pragma region Test Healing and Damage
+	void StartDamage();
+	void StartHealing();
+	void HealPlayer(float HealAmount);
+	void DamagePlayer(float DamageAmount);
+#pragma endregion 
 
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	// The amount of health the character currently has.
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
+	float PlayerHealth;
 	
 	// To add mapping context
 	virtual void BeginPlay();

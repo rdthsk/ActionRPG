@@ -52,6 +52,8 @@ AActionRPGCharacter::AActionRPGCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
+
+	PlayerHealth = 1.00f;
 }
 
 void AActionRPGCharacter::BeginPlay()
@@ -91,11 +93,11 @@ void AActionRPGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Started, this, &AActionRPGCharacter::Sprint);
 		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Completed, this, &AActionRPGCharacter::StopSprinting);
 
-		// Heal
-		EnhancedInputComponent->BindAction(HealAction, ETriggerEvent::Triggered, this, &AActionRPGCharacter::Heal);
+		// Start HealPlayer
+		EnhancedInputComponent->BindAction(HealAction, ETriggerEvent::Triggered, this, &AActionRPGCharacter::StartHealing);
 
-		// Damage
-		EnhancedInputComponent->BindAction(DamageAction, ETriggerEvent::Triggered, this, &AActionRPGCharacter::Damage);
+		// Start Damage
+		EnhancedInputComponent->BindAction(DamageAction, ETriggerEvent::Triggered, this, &AActionRPGCharacter::StartDamage);
 	}
 	else
 	{	
@@ -149,12 +151,34 @@ void AActionRPGCharacter::StopSprinting()
 	GetCharacterMovement()->MaxWalkSpeed = 600.f;
 }
 
-void AActionRPGCharacter::Heal()
+void AActionRPGCharacter::StartDamage()
 {
-
+	DamagePlayer(0.02f);
 }
 
-void AActionRPGCharacter::Damage()
+void AActionRPGCharacter::StartHealing()
 {
+	HealPlayer(0.02f);
+}
 
+void AActionRPGCharacter::HealPlayer(float HealAmount)
+{
+	UE_LOG(LogTemp, Warning, TEXT("We are healing for %f points"), HealAmount);
+	PlayerHealth += HealAmount;
+
+	if (PlayerHealth > 1.00f)
+	{
+		PlayerHealth = 1.00f;
+	}
+}
+
+void AActionRPGCharacter::DamagePlayer(float DamageAmount)
+{
+	UE_LOG(LogTemp, Warning, TEXT("We are taking damage for %f points"), DamageAmount);
+	PlayerHealth -= DamageAmount;
+
+	if (PlayerHealth < 0.00f)
+	{
+		PlayerHealth = 0.00f;
+	}
 }
