@@ -48,6 +48,10 @@ class AActionRPGCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* SprintAction;
 
+	/** Sprint Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* EquipAction;
+
 public:
 	AActionRPGCharacter();
 
@@ -64,6 +68,9 @@ protected:
 
 	//Allows the character to stop sprinting
 	void StopSprinting();
+
+	//Allows the character to equip an item they are close to
+	void EquipItem();
 	
 	UFUNCTION(BlueprintCallable, Category="Health")
 	void HealPlayer(float HealAmount);
@@ -79,6 +86,9 @@ protected:
 	// The amount of health the character currently has.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
 	float PlayerHealth;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Items")
+	bool bIsOverlappingItem;
 	
 	// To add mapping context
 	virtual void BeginPlay();

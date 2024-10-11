@@ -54,6 +54,7 @@ AActionRPGCharacter::AActionRPGCharacter()
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 
 	PlayerHealth = 1.00f;
+	bIsOverlappingItem = false;
 }
 
 void AActionRPGCharacter::BeginPlay()
@@ -92,7 +93,9 @@ void AActionRPGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 		// Sprint
 		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Started, this, &AActionRPGCharacter::Sprint);
 		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Completed, this, &AActionRPGCharacter::StopSprinting);
-		
+
+		//Equip
+		EnhancedInputComponent->BindAction(EquipAction, ETriggerEvent::Triggered, this, &AActionRPGCharacter::EquipItem);
 	}
 	else
 	{	
@@ -165,5 +168,13 @@ void AActionRPGCharacter::DamagePlayer(float DamageAmount)
 	if (PlayerHealth < 0.00f)
 	{
 		PlayerHealth = 0.00f;
+	}
+}
+
+void AActionRPGCharacter::EquipItem()
+{
+	if(bIsOverlappingItem)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("We picked up an item"));
 	}
 }
