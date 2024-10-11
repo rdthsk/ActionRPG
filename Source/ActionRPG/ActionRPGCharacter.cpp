@@ -92,12 +92,7 @@ void AActionRPGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 		// Sprint
 		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Started, this, &AActionRPGCharacter::Sprint);
 		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Completed, this, &AActionRPGCharacter::StopSprinting);
-
-		// Start HealPlayer
-		EnhancedInputComponent->BindAction(HealAction, ETriggerEvent::Triggered, this, &AActionRPGCharacter::StartHealing);
-
-		// Start Damage
-		EnhancedInputComponent->BindAction(DamageAction, ETriggerEvent::Triggered, this, &AActionRPGCharacter::StartDamage);
+		
 	}
 	else
 	{	
@@ -149,16 +144,6 @@ void AActionRPGCharacter::Sprint()
 void AActionRPGCharacter::StopSprinting()
 {
 	GetCharacterMovement()->MaxWalkSpeed = 600.f;
-}
-
-void AActionRPGCharacter::StartDamage()
-{
-	DamagePlayer(0.02f);
-}
-
-void AActionRPGCharacter::StartHealing()
-{
-	HealPlayer(0.02f);
 }
 
 void AActionRPGCharacter::HealPlayer(float HealAmount)
